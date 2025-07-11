@@ -1,0 +1,68 @@
+{
+    "name": "solar-system-flower-gallery",
+    "version": "2.0.0",
+    "description": "Interactive solar system with flower planets - Hệ mặt trời hoa tương tác",
+    "main": "index.html",
+    "scripts": {
+        "start": "npx serve . -p 3000",
+        "dev": "npx live-server --port=3000 --host=localhost",
+        "build": "npm run minify-css && npm run minify-js",
+        "minify-css": "npx csso css/style.css --output css/style.min.css",
+        "minify-js": "npx terser js/script.js --compress --mangle --output js/script.min.js",
+        "optimize-images": "npx imagemin images/**/*.{jpg,jpeg,png} --out-dir=images/optimized",
+        "test": "npx http-server . -p 8080 -o",
+        "lint": "npx eslint js/ && npx stylelint css/",
+        "format": "npx prettier --write .",
+        "analyze": "npx lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html"
+    },
+    "keywords": [
+        "solar-system",
+        "interactive",
+        "flowers",
+        "planets",
+        "animation",
+        "css",
+        "javascript",
+        "responsive",
+        "accessibility"
+    ],
+    "author": "Solar System Flower Gallery Team",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/username/solar-system-flower-gallery.git"
+    },
+    "bugs": {
+        "url": "https://github.com/username/solar-system-flower-gallery/issues"
+    },
+    "homepage": "https://username.github.io/solar-system-flower-gallery",
+    "devDependencies": {
+        "serve": "^14.2.0",
+        "live-server": "^1.2.2",
+        "csso-cli": "^4.0.2",
+        "terser": "^5.19.0",
+        "imagemin-cli": "^7.0.0",
+        "eslint": "^8.44.0",
+        "stylelint": "^15.10.0",
+        "prettier": "^3.0.0",
+        "lighthouse": "^10.4.0"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ],
+    "engines": {
+        "node": ">=14.0.0",
+        "npm": ">=6.0.0"
+    },
+    "files": [
+        "index.html",
+        "test.html",
+        "admin.html",
+        "css/",
+        "js/",
+        "images/",
+        "README.md"
+    ]
+}

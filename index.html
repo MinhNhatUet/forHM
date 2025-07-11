@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Mặt Trời Hoa - Giao Diện</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Cinzel:wght@400;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            background: #000;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Starfield background */
+        
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+        /* Enhanced floating petals */
+        
+        .petal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-petal {
+            position: absolute;
+            animation: float 20s infinite linear;
+            opacity: 0.8;
+        }
+        
+        .petal-1 {
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(ellipse, rgba(255, 182, 193, 0.8), rgba(255, 105, 180, 0.4));
+            border-radius: 50% 0 50% 0;
+            transform: rotate(45deg);
+        }
+        
+        .petal-2 {
+            width: 8px;
+            height: 16px;
+            background: linear-gradient(45deg, rgba(218, 112, 214, 0.7), rgba(255, 20, 147, 0.3));
+            border-radius: 50% 50% 50% 0;
+        }
+        
+        .petal-3 {
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, rgba(255, 192, 203, 0.9), rgba(255, 182, 193, 0.2));
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .petal-4 {
+            width: 6px;
+            height: 14px;
+            background: linear-gradient(90deg, rgba(147, 112, 219, 0.8), rgba(138, 43, 226, 0.4));
+            border-radius: 50%;
+            transform: rotate(30deg);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg) translateX(20px);
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) translateX(-20px);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .solar-system {
+            position: relative;
+            width: 100%;
+            height: 1000px;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+            overflow: hidden;
+        }
+        /* Clean Sun */
+        
+        .sun {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            z-index: 10;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        
+        .sun:hover {
+            transform: scale(1.2);
+        }
+        /* Clean Even Orbits */
+        
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+        
+        .orbit:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            animation-duration: 10s;
+        }
+        
+        .orbit:nth-child(3) {
+            width: 160px;
+            height: 160px;
+            animation-duration: 15s;
+        }
+        
+        .orbit:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            animation-duration: 20s;
+        }
+        
+        .orbit:nth-child(5) {
+            width: 240px;
+            height: 240px;
+            animation-duration: 25s;
+        }
+        
+        .orbit:nth-child(6) {
+            width: 280px;
+            height: 280px;
+            animation-duration: 30s;
+        }
+        
+        .orbit:nth-child(7) {
+            width: 320px;
+            height: 320px;
+            animation-duration: 35s;
+        }
+        
+        .orbit:nth-child(8) {
+            width: 360px;
+            height: 360px;
+            animation-duration: 40s;
+        }
+        
+        .orbit:nth-child(9) {
+            width: 400px;
+            height: 400px;
+            animation-duration: 45s;
+        }
+        
+        .orbit:nth-child(10) {
+            width: 440px;
+            height: 440px;
+            animation-duration: 50s;
+        }
+        
+        .orbit:nth-child(11) {
+            width: 480px;
+            height: 480px;
+            animation-duration: 55s;
+        }
+        
+        .orbit:nth-child(12) {
+            width: 520px;
+            height: 520px;
+            animation-duration: 60s;
+        }
+        
+        .orbit:nth-child(13) {
+            width: 560px;
+            height: 560px;
+            animation-duration: 65s;
+        }
+        
+        .orbit:nth-child(14) {
+            width: 600px;
+            height: 600px;
+            animation-duration: 70s;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        /* Enhanced Planets */
+        
+        .planet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            transition: all 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: planetFloat 6s ease-in-out infinite, iconChange 3s ease-in-out infinite;
+            transform: translate(-50%, -50%);
+            z-index: 200;
+            pointer-events: auto;
+        }
+        
+        @keyframes planetFloat {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+            50% {
+                transform: translate(-50%, -50%) translateY(-5px);
+            }
+        }
+        
+        @keyframes iconChange {
+            0% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            25% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(90deg);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1) rotate(180deg);
+            }
+            75% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(270deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(360deg);
+            }
+        }
+        
+        .planet:hover {
+            transform: translate(-50%, -50%) scale(1.4) translateY(-5px);
+            z-index: 2000;
+        }
+        /* Navigation */
+        
+        .nav-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-icon {
+            font-size: 18px;
+        }
+        
+        .nav-text {
+            font-size: 13px;
+        }
+        /* Beautiful Card Interface */
+        
+        .card-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 450px;
+            display: none;
+            z-index: 100;
+            animation: cardSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card-container.active {
+            display: block;
+        }
+        
+        @keyframes cardSlideIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) translateY(0);
+            }
+        }
+        
+        .message-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .message-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.2) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .card-header {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b9d 100%);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: white;
+        }
+        
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #feca57, #ff9a56);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: avatarShine 3s ease-in-out infinite;
+        }
+        
+        @keyframes avatarShine {
+            0%,
+            100% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            50% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        
+        .user-details h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .user-details .status {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+        
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 2;
+            padding: 24px;
+        }
+        
+        .message-image-container {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .message-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .message-image-container:hover img {
+            transform: scale(1.05);
+        }
+        
+        #messageImage {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient( 135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 50%, rgba(255, 107, 157, 0.1) 100%);
+        }
+        
+        .message-bubble {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .message-bubble::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 24px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #f8fafc;
+            filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.05));
+        }
+        
+        .message-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #334155;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .message-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        .message-time {
+            color: #64748b;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .time-icon {
+            font-size: 0.75rem;
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+        /* Simple Modal Interface */
+        
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            border-radius: 12px;
+            max-width: 450px;
+            width: 90%;
+            max-height: 70vh;
+            padding: 0;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            animation: modalAppear 0.3s ease-out;
+            overflow: hidden;
+        }
+        
+        .modal.active {
+            display: block !important;
+        }
+        
+        .overlay.active {
+            display: block !important;
+        }
+        
+        @keyframes modalAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        .modal .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            font-size: 18px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+        
+        .modal .close-btn:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+        
+        .modal-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e5e5e5;
+            flex-shrink: 0;
+        }
+        
+        .modal-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            flex-grow: 1;
+        }
+        
+        .modal-content {
+            padding: 18px 20px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+        
+        .modal-image {
+            width: 100%;
+            max-height: 200px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+            margin: 0 0 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+        
+        .modal-messages {
+            text-align: left;
+        }
+        
+        .modal-message {
+            font-size: 19px;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+            padding: 14px 16px;
+            background: #f8f9fa;
+            border-radius: 18px;
+            border: 1px solid #e9ecef;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            position: relative;
+        }
+        
+        .modal-message:before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 12px;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-right: 8px solid #f8f9fa;
+        }
+        
+        .modal-message:last-child {
+            margin-bottom: 0;
+        }
+        
+        .admin-panel {
+            margin-top: 16px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            text-align: left;
+        }
+        
+        .admin-panel h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        .message-editor-item {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        
+        .message-editor-item textarea {
+            flex: 1;
+            min-height: 60px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .message-editor-item .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .admin-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 10px;
+            font-family: inherit;
+        }
+        
+        .admin-btn:hover,
+        .message-editor-item .btn-remove:hover {
+            opacity: 0.8;
+        }
+        
+        .save-btn {
+            background: #28a745 !important;
+        }
+        
+        .admin-toggle {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            width: 36px;
+            height: 36px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .admin-toggle:hover {
+            background: #5a67d8;
+            transform: scale(1.1);
+        }
+        
+        .admin-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        
+        .admin-btn.save-btn {
+            background: #28a745;
+        }
+        
+        .admin-btn.save-btn:hover {
+            background: #218838;
+        }
+        
+        .admin-btn.delete-btn {
+            background: #dc3545;
+            padding: 8px 12px;
+        }
+        
+        .admin-btn.delete-btn:hover {
+            background: #c82333;
+        }
+        /* Taskbar with round image buttons */
+        
+        .taskbar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            padding: 18px 0 14px 0;
+            background: rgba(20, 20, 30, 0.85);
+            box-shadow: 0 -2px 16px 0 rgba(0, 0, 0, 0.18);
+            border-top-left-radius: 18px;
+            border-top-right-radius: 18px;
+        }
+        
+        .taskbar-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            border: 3px solid #e0e0e0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+        }
+        
+        .taskbar-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
+            border-color: #a5b4fc;
+        }
+        
+        .taskbar-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 600px) {
+            .taskbar {
+                gap: 10px;
+                padding: 10px 0 8px 0;
+            }
+            .taskbar-btn {
+                width: 38px;
+                height: 38px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="starfield" id="starfield"></div>
+    <div class="petal-bg" id="petalBg"></div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav class="nav">
+            <a href="test.html" class="nav-link">
+                <span class="nav-icon">🧪</span>
+                <span class="nav-text">Test Page</span>
+            </a>
+            <a href="admin.html" class="nav-link">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">Admin</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="solar-system" id="solarSystem">
+            <div class="sun" onclick="showSunMessage(1)" tabindex="0" aria-label="Mặt Trời" onkeydown="if(event.key==='Enter'||event.key===' '){showSunMessage(1);}">☀️</div>
+
+            <!-- Planet 1 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet1" onclick="showMessage(1)" tabindex="0" aria-label="Hành tinh 1" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(1);}">👑</div>
+            </div>
+
+            <!-- Planet 2 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet2" onclick="showMessage(2)" tabindex="0" aria-label="Hành tinh 2" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(2);}">💍</div>
+            </div>
+
+            <!-- Planet 3 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet3" onclick="showMessage(3)" tabindex="0" aria-label="Hành tinh 3" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(3);}">🦋</div>
+            </div>
+
+            <!-- Planet 4 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet4" onclick="showMessage(4)" tabindex="0" aria-label="Hành tinh 4" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(4);}">🎄</div>
+            </div>
+
+            <!-- Planet 5 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet5" onclick="showMessage(5)" tabindex="0" aria-label="Hành tinh 5" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(5);}">🍁</div>
+            </div>
+
+            <!-- Planet 6 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet6" onclick="showMessage(6)" tabindex="0" aria-label="Hành tinh 6" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(6);}">🍀</div>
+            </div>
+
+            <!-- Planet 7 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet7" onclick="showMessage(7)" tabindex="0" aria-label="Hành tinh 7" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(7);}">☘️</div>
+            </div>
+
+            <!-- Planet 8 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet8" onclick="showMessage(8)" tabindex="0" aria-label="Hành tinh 8" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(8);}">🐚</div>
+            </div>
+
+            <!-- Planet 9 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet9" onclick="showMessage(9)" tabindex="0" aria-label="Hành tinh 9" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(9);}">💐</div>
+            </div>
+
+            <!-- Planet 10 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet10" onclick="showMessage(10)" tabindex="0" aria-label="Hành tinh 10" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(10);}">🌷</div>
+            </div>
+
+            <!-- Planet 11 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet11" onclick="showMessage(11)" tabindex="0" aria-label="Hành tinh 11" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(11);}">🌹</div>
+            </div>
+
+            <!-- Planet 12 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet12" onclick="showMessage(12)" tabindex="0" aria-label="Hành tinh 12" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(12);}">🥀</div>
+            </div>
+
+            <!-- Planet 13 -->
+            <div class="orbit">
+                <div class="planet" style="top: 0; left: 50%; transform: translate(-50%, -50%);" id="planet13" onclick="showMessage(13)" tabindex="0" aria-label="Hành tinh 13" onkeydown="if(event.key==='Enter'||event.key===' '){showMessage(13);}">🪻</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card-style Modal Interface -->
+    <div class="overlay" id="overlay" onclick="closeMessage()"></div>
+    <div class="modal" id="modalContainer">
+        <button class="close-btn" onclick="closeMessage()">×</button>
+
+        <div class="modal-header">
+            <img src="images/nhat.jpg" alt="Avatar" class="modal-avatar" id="messageAvatar">
+            <h2 class="modal-title" id="messageName">Minh Nhật</h2>
+        </div>
+
+        <div class="modal-content">
+            <img src="images/goodmorningebe.jpg" alt="Mặt Trời Trung Tâm" class="modal-image" id="messageImage" loading="lazy">
+
+            <div class="modal-messages" id="modalMessages">
+                <!-- Messages will be populated here -->
+            </div>
+
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <h3>📝 Admin: Chỉnh sửa Messages</h3>
+                <div id="messageEditor">
+                    <!-- Message editor will be populated here -->
+                </div>
+                <button onclick="addMessage()" class="admin-btn">+ Thêm Message</button>
+                <button onclick="saveMessages()" class="admin-btn save-btn">💾 Lưu Tất Cả</button>
+            </div>
+        </div>
+
+        <button class="admin-toggle" id="adminToggle" onclick="toggleAdmin()" style="display: none;">👑</button>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar" id="taskbar">
+        <button class="taskbar-btn" data-link="https://minhnhatuet.github.io/hpbdHaMy/" aria-label="Memory 1">
+            <img src="images/memories/1.jpg" alt="Memory 1">
+        </button>
+        <button class="taskbar-btn" data-link="https://open.spotify.com/playlist/1Ek7SqWjQzwmpgnGyxtHoy?si=7afc1fe244ff407b&pt=2f38dfee3577fabc1d4f3c8b2d1d0e30" aria-label="Memory 2">
+            <img src="images/memories/3.jpg" alt="Memory 2">
+        </button>
+        <button class="taskbar-btn" data-link="https://minhnhatuet.github.io/loveHaMy/" aria-label="Memory 3">
+            <img src="images/memories/7.jpg" alt="Memory 3">
+        </button>
+        <button class="taskbar-btn" data-link="https://open.spotify.com/playlist/7lh0YuIuCMbUnn6bw5WqJt?si=1498d46701994ede&pt=87ac1be49c38f3992d0d32e574072358" aria-label="Memory 4">
+            <img src="images/memories/2.jpg" alt="Memory 4">
+        </button>
+        <button class="taskbar-btn" data-link="https://minhnhatuet.github.io/NewyearforHM/" aria-label="Memory 5">
+            <img src="images/memories/5.jpg" alt="Memory 5">
+        </button>
+        <button class="taskbar-btn" data-link="https://minhnhatuet.github.io/QuachoHaMy/" aria-label="Memory 6">
+            <img src="images/memories/6.jpg" alt="Memory 6">
+        </button>
+        <button class="taskbar-btn" data-link="https://minhnhatuet.github.io/QuachoHM/" aria-label="Memory 7">
+            <img src="images/memories/4.jpg" alt="Memory 7">
+        </button>
+    </div>
+
+    <!-- No external script files -->
+    <script src="js/timeBasedImages.js"></script>
+    <script>
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+                console.log('🚀 DOM loaded, initializing Solar System...');
+
+                // All available icons (expanded with more emojis)
+                const allIcons = [
+                    '👑', '💍', '🦋', '🎄', '🍁', '🍀', '☘️', '🐚', '💐', '🌷', '🌹', '🥀', '🪻', '🪷', '🌺', '🌸', '🌼',
+                    '🪐', '🌏', '❄️', '🍓', '🥨', '🌰', '⚽️', '💌', '❤️‍🔥', '🩵', '💗', '💝', '🌟', '✨', '💫', '⭐',
+                    '🌙', '🌞', '🌈', '🔥', '💎', '🎀', '🎈', '🎊', '🎉', '🎁', '🎯', '🎨', '🎪', '🎭', '🎪', '🎡',
+                    '🍭', '🍬', '🍯', '🍎', '🍊', '🍋', '🍌', '🍉', '🍇', '🍑', '🍒', '🥝', '🥭', '🍍', '🥥', '🥑',
+                    '🌻', '🌳', '🌲', '🌱', '🍃', '🌿', '🎋', '🌾', '💮', '🏵️', '🌴', '🌵', '🌼', '🌙', '⚡', '🌊'
+                ];
+                let usedIcons = new Set();
+                let planetRotationIntervals = {};
+
+                function getRandomIcon() {
+                    return allIcons[Math.floor(Math.random() * allIcons.length)];
+                }
+
+                function rotateSinglePlanet(planetId) {
+                    const planet = document.getElementById(`planet${planetId}`);
+                    if (planet) {
+                        console.log(`Rotating planet ${planetId}`);
+                        // Add fade out effect
+                        planet.style.opacity = '0.3';
+                        planet.style.transform = 'translate(-50%, -50%) scale(0.8)';
+
+                        setTimeout(() => {
+                            // Change icon
+                            const newIcon = getRandomIcon();
+                            planet.textContent = newIcon;
+                            console.log(`Planet ${planetId} changed to: ${newIcon}`);
+
+                            // Fade back in
+                            planet.style.opacity = '1';
+                            planet.style.transform = 'translate(-50%, -50%) scale(1)';
+                        }, 200);
+                    } else {
+                        console.error(`Planet ${planetId} not found!`);
+                    }
+                }
+
+                function rotatePlanetIcons() {
+                    for (let i = 1; i <= 13; i++) {
+                        const planet = document.getElementById(`planet${i}`);
+                        if (planet) {
+                            planet.textContent = getRandomIcon();
+                        }
+                    }
+                }
+
+                function startContinuousRotation() {
+                    console.log('Starting continuous rotation for 13 planets...');
+                    // Start rotation for each planet with different intervals (slower)
+                    for (let i = 1; i <= 13; i++) {
+                        // Each planet changes every 8-15 seconds (much slower)
+                        const interval = 8000 + (i * 500) + (Math.random() * 7000);
+
+                        console.log(`Planet ${i}: interval = ${interval}ms`);
+
+                        planetRotationIntervals[i] = setInterval(() => {
+                            rotateSinglePlanet(i);
+                        }, interval);
+
+                        // Initial delay for each planet (longer delay)
+                        setTimeout(() => {
+                            rotateSinglePlanet(i);
+                        }, Math.random() * 5000);
+                    }
+                    console.log('All 13 planets rotation started!');
+                }
+
+                function stopContinuousRotation() {
+                    Object.values(planetRotationIntervals).forEach(interval => {
+                        clearInterval(interval);
+                    });
+                    planetRotationIntervals = {};
+                }
+
+                // Global variables for admin
+                let currentPlanetId = null;
+                let isAdminMode = false;
+
+                // Time-based image system
+                // (moved to js/timeBasedImages.js)
+
+                // Helper to get current time slot and message
+                function getCurrentTimeSlot() {
+                    const now = new Date();
+                    const currentHour = now.getHours() + now.getMinutes() / 60;
+
+                    for (const [key, slot] of Object.entries(timeBasedImages)) {
+                        if (key === 'sleep') {
+                            if (currentHour >= 21 || currentHour < 4) {
+                                return slot;
+                            }
+                        } else {
+                            if (currentHour >= slot.start && currentHour < slot.end) {
+                                return slot;
+                            }
+                        }
+                    }
+                    return timeBasedImages.together;
+                }
+
+                // Helper to get the first message object for the current time slot
+                function getCurrentTimeSlotMessage() {
+                    const slot = getCurrentTimeSlot();
+                    if (slot && slot.messages && slot.messages.length > 0) {
+                        return slot.messages[0];
+                    }
+                    return {
+                        text: '',
+                        image: slot && slot.images ? slot.images[0] : ''
+                    };
+                }
+
+                // Message functions
+                function showMessage(planetId) {
+                    console.log('🪐 showMessage called with planetId:', planetId);
+                    try {
+                        currentPlanetId = planetId;
+                        // Lấy slot theo giờ hiện tại
+                        const slot = getCurrentTimeSlot();
+                        // Chọn message ngẫu nhiên trong slot
+                        let messageObj = null;
+                        if (slot && slot.messages && slot.messages.length > 0) {
+                            const randomIndex = Math.floor(Math.random() * slot.messages.length);
+                            const msg = slot.messages[randomIndex];
+                            // Nếu text hoặc image là mảng, chọn ngẫu nhiên
+                            const text = Array.isArray(msg.text) ? msg.text[Math.floor(Math.random() * msg.text.length)] : msg.text;
+                            const image = Array.isArray(msg.image) ? msg.image[Math.floor(Math.random() * msg.image.length)] : msg.image;
+                            messageObj = {
+                                text,
+                                image
+                            };
+                        } else {
+                            messageObj = {
+                                text: '',
+                                image: ''
+                            };
+                        }
+                        // Hiển thị modal/card
+                        const modal = document.getElementById('modalContainer');
+                        const overlay = document.getElementById('overlay');
+                        const avatarImg = document.getElementById('messageAvatar');
+                        if (avatarImg) {
+                            avatarImg.src = "images/nhat.jpg";
+                            avatarImg.alt = "Avatar";
+                        }
+                        const titleElement = document.getElementById('messageName');
+                        if (titleElement) {
+                            titleElement.textContent = "Minh Nhật";
+                        }
+                        const messageImage = document.getElementById('messageImage');
+                        if (messageImage) {
+                            messageImage.src = messageObj.image || '';
+                            messageImage.alt = messageObj.text || 'Message Image';
+                            messageImage.style.display = 'block';
+                        }
+                        // Hiển thị message
+                        displayMessages([messageObj]);
+                        // Update admin panel nếu đang ở admin mode (hiện messages của slot hiện tại)
+                        if (isAdminMode) {
+                            updateAdminPanel(slot.messages);
+                        }
+                        if (overlay && modal) {
+                            overlay.classList.add('active');
+                            modal.classList.add('active');
+                        }
+                    } catch (error) {
+                        console.error('💥 Error in showMessage:', error);
+                    }
+                }
+
+                function showSunMessage() {
+                    currentPlanetId = 'sun';
+                    // Lấy slot theo giờ hiện tại
+                    const slot = getCurrentTimeSlot();
+                    // Chọn message ngẫu nhiên trong slot
+                    let messageObj = null;
+                    if (slot && slot.messages && slot.messages.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * slot.messages.length);
+                        const msg = slot.messages[randomIndex];
+                        const text = Array.isArray(msg.text) ? msg.text[Math.floor(Math.random() * msg.text.length)] : msg.text;
+                        const image = Array.isArray(msg.image) ? msg.image[Math.floor(Math.random() * msg.image.length)] : msg.image;
+                        messageObj = {
+                            text,
+                            image
+                        };
+                    } else {
+                        messageObj = {
+                            text: '',
+                            image: ''
+                        };
+                    }
+                    const avatarImg = document.getElementById('messageAvatar');
+                    avatarImg.src = "images/nhat.jpg";
+                    avatarImg.alt = "Avatar";
+                    document.getElementById('messageName').textContent = "Minh Nhật";
+                    const messageImage = document.getElementById('messageImage');
+                    messageImage.src = messageObj.image || '';
+                    messageImage.alt = messageObj.text || 'Message Image';
+                    displayMessages([messageObj]);
+                    if (isAdminMode) {
+                        updateAdminPanel(slot.messages);
+                    }
+                    // Thêm class sun-modal cho modal
+                    const modal = document.getElementById('modalContainer');
+                    if (modal) modal.classList.add('sun-modal');
+                    document.getElementById('overlay').classList.add('active');
+                    modal.classList.add('active');
+                }
+
+                function displayMessages(messages) {
+                    const messagesContainer = document.getElementById('modalMessages');
+                    messagesContainer.innerHTML = '';
+                    if (messages && messages.length > 0) {
+                        const messageElement = document.createElement('p');
+                        messageElement.className = 'modal-message';
+                        messageElement.textContent = messages[0].text || messages[0];
+                        messagesContainer.appendChild(messageElement);
+                    }
+                }
+
+                function updateAdminPanel(messages) {
+                    const editor = document.getElementById('messageEditor');
+                    editor.innerHTML = '';
+                    messages.forEach((message, index) => {
+                        const editorItem = document.createElement('div');
+                        editorItem.className = 'message-editor-item';
+                        editorItem.innerHTML = `
+                    <textarea rows="3" data-index="${index}">${message.text || message}</textarea>
+                    <input type="text" placeholder="Image URL (tùy chọn)" value="${message.image || ''}" data-img-index="${index}" style="width: 40%; font-size: 12px; margin-left: 8px;" />
+                    <button class="btn-remove" onclick="removeMessage(${index})">🗑️</button>
+                `;
+                        editor.appendChild(editorItem);
+                    });
+                }
+
+                function addMessage() {
+                    if (!currentPlanetId) return;
+                    const data = currentPlanetId === 'sun' ? sunData : planetMessages[currentPlanetId];
+                    if (data) {
+                        data.messages.push({
+                            text: "Thêm message mới ở đây...",
+                            image: ""
+                        });
+                        updateAdminPanel(data.messages);
+                        displayMessages(data.messages);
+                    }
+                }
+
+                function saveMessages() {
+                    if (!currentPlanetId) return;
+                    const data = currentPlanetId === 'sun' ? sunData : planetMessages[currentPlanetId];
+                    if (data) {
+                        const textareas = document.querySelectorAll('#messageEditor textarea');
+                        const imageInputs = document.querySelectorAll('#messageEditor input[type="text"]');
+                        data.messages = Array.from(textareas).map((textarea, i) => {
+                            const text = textarea.value.trim();
+                            const image = imageInputs[i].value.trim();
+                            return {
+                                text,
+                                image
+                            };
+                        });
+                    }
+                }
+
+                function removeMessage(index) {
+                    if (!currentPlanetId) return;
+                    let data;
+                    if (currentPlanetId === 'sun') {
+                        data = sunData;
+                    } else if (planetMessages[currentPlanetId]) {
+                        data = planetMessages[currentPlanetId];
+                    } else {
+                        // Nếu muốn xóa message theo khung giờ thực (ví dụ cho modal theo giờ)
+                        data = getCurrentTimeSlot();
+                    }
+                    if (data && data.messages && data.messages.length > index) {
+                        data.messages.splice(index, 1);
+                        updateAdminPanel(data.messages);
+                        displayMessages(data.messages);
+                    }
+                }
+
+                // Expose functions to global scope for HTML onclick
+                window.closeMessage = function() {
+                    const overlay = document.getElementById('overlay');
+                    const modal = document.getElementById('modalContainer');
+                    if (overlay && modal) {
+                        overlay.classList.remove('active');
+                        modal.classList.remove('active');
+                        modal.classList.remove('sun-modal');
+                    }
+                };
+                window.addMessage = addMessage;
+                window.saveMessages = saveMessages;
+                window.removeMessage = removeMessage;
+
+                // Show admin toggle with keyboard shortcut
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'a' && e.ctrlKey && document.getElementById('modalContainer').classList.contains('active')) {
+                        e.preventDefault();
+                        document.getElementById('adminToggle').style.display = 'block';
+                        console.log('🔑 Admin toggle shown (Ctrl+A)');
+                    }
+                });
+
+                // Create starfield
+                function createStarfield() {
+                    const starfield = document.getElementById('starfield');
+                    for (let i = 0; i < 200; i++) {
+                        const star = document.createElement('div');
+                        star.className = 'star';
+                        star.style.left = Math.random() * 100 + '%';
+                        star.style.top = Math.random() * 100 + '%';
+                        star.style.animationDelay = Math.random() * 3 + 's';
+                        star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                        starfield.appendChild(star);
+                    }
+                }
+
+                // Create floating petals
+                function createPetal() {
+                    const petal = document.createElement('div');
+                    const petalTypes = ['petal-1', 'petal-2', 'petal-3', 'petal-4'];
+                    const randomType = petalTypes[Math.floor(Math.random() * petalTypes.length)];
+
+                    petal.className = `floating-petal ${randomType}`;
+                    petal.style.left = Math.random() * 100 + '%';
+                    petal.style.animationDelay = Math.random() * 20 + 's';
+                    petal.style.animationDuration = (Math.random() * 15 + 15) + 's';
+
+                    document.getElementById('petalBg').appendChild(petal);
+
+                    setTimeout(() => {
+                        if (petal.parentNode) {
+                            petal.remove();
+                        }
+                    }, 35000);
+                }
+
+                // Initialize effects
+                console.log('Initializing starfield and petals...');
+                createStarfield();
+
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(createPetal, Math.random() * 10000);
+                }
+
+                setInterval(createPetal, 800);
+
+                // Initialize planet icons and start rotation
+                console.log('Initializing planet icons...');
+                rotatePlanetIcons();
+
+                // Start continuous rotation with different intervals for each planet
+                console.log('Starting continuous planet icon rotation...');
+                startContinuousRotation();
+
+                // Also keep a global rotation as backup (much slower)
+                setInterval(rotatePlanetIcons, 30000); // Full rotation every 30 seconds instead of 8
+
+                console.log('Initialization complete. Planet click handlers should be working.');
+
+                // Test that showMessage function is available
+                window.testPlanetClick = function(id) {
+                    console.log('Testing planet click for ID:', id);
+                    showMessage(id);
+                };
+
+                console.log('Test function available: window.testPlanetClick(1)');
+
+                // Test function để kiểm tra time slot hiện tại
+                function checkCurrentTimeSlot() {
+                    const now = new Date();
+                    const currentHour = now.getHours() + now.getMinutes() / 60;
+                    const currentSlot = getCurrentTimeSlot();
+
+                    console.log(`🕐 Current time: ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} (${currentHour.toFixed(2)})`);
+                    console.log(`📅 Current slot: ${currentSlot.name}`);
+                    console.log(`🖼️ Available images:`, currentSlot.images);
+
+                    return currentSlot;
+                }
+
+                // Test function để thử các khung giờ khác nhau
+                function testTimeSlot(hour, minute = 0) {
+                    const testTime = hour + minute / 60;
+                    console.log(`🧪 Testing time: ${hour}:${minute.toString().padStart(2, '0')}`);
+
+                    for (const [key, slot] of Object.entries(timeBasedImages)) {
+                        if (key === 'sleep') {
+                            if (testTime >= 21 || testTime < 4) {
+                                console.log(`✅ Match: ${slot.name}`);
+                                return slot;
+                            }
+                        } else {
+                            if (testTime >= slot.start && testTime < slot.end) {
+                                console.log(`✅ Match: ${slot.name}`);
+                                return slot;
+                            }
+                        }
+                    }
+
+                    console.log(`⚠️ No match found, using default: ${timeBasedImages.together.name}`);
+                    return timeBasedImages.together;
+                }
+
+                // Test modal function
+                function testModal() {
+                    console.log('🧪 Testing modal display...');
+                    const overlay = document.getElementById('overlay');
+                    const modal = document.getElementById('modalContainer');
+
+                    console.log('Overlay found:', !!overlay);
+                    console.log('Modal found:', !!modal);
+
+                    if (overlay && modal) {
+                        // Set some test content
+                        document.getElementById('messageName').textContent = "Test Modal";
+                        document.getElementById('messageAvatar').src = "images/nhat.jpg";
+
+                        // Add content to messages
+                        const messagesContainer = document.getElementById('modalMessages');
+                        messagesContainer.innerHTML = '<p class="modal-message">Test message để kiểm tra modal</p>';
+
+                        overlay.classList.add('active');
+                        modal.classList.add('active');
+                        console.log('✅ Modal should be visible now');
+                        console.log('Modal computed display:', window.getComputedStyle(modal).display);
+                    } else {
+                        console.error('❌ Modal elements not found');
+                    }
+                }
+
+                // Force show modal function
+                function forceShowModal() {
+                    const modal = document.getElementById('modalContainer');
+                    const overlay = document.getElementById('overlay');
+                    if (modal && overlay) {
+                        modal.style.display = 'block';
+                        overlay.style.display = 'block';
+                        console.log('🔧 Force showing modal with inline styles');
+                    }
+                }
+
+                // Expose test functions to window
+                window.testPlanetClick = testPlanetClick;
+                window.testModal = testModal;
+                window.forceShowModal = forceShowModal;
+                window.showMessage = showMessage;
+                window.checkCurrentTimeSlot = checkCurrentTimeSlot;
+                window.testTimeSlot = testTimeSlot;
+
+                // Log khi script được load
+                console.log('✅ Solar System initialized successfully!');
+
+                // Show time-based message in modal if no planet is selected
+                function showTimeBasedModal() {
+                    const slot = getCurrentTimeSlot();
+                    let messageObj = null;
+                    // Lấy message đầu tiên hợp lệ
+                    if (slot && slot.messages && slot.messages.length > 0) {
+                        if (Array.isArray(slot.messages[0].text)) {
+                            messageObj = {
+                                text: slot.messages[0].text[0],
+                                image: Array.isArray(slot.messages[0].image) ? slot.messages[0].image[0] : slot.messages[0].image
+                            };
+                        } else {
+                            messageObj = slot.messages[0];
+                        }
+                    } else {
+                        messageObj = {
+                            text: '',
+                            image: ''
+                        };
+                    }
+                    // Hiển thị modal
+                    const modal = document.getElementById('modalContainer');
+                    const overlay = document.getElementById('overlay');
+                    const avatarImg = document.getElementById('messageAvatar');
+                    const titleElement = document.getElementById('messageName');
+                    const messageImage = document.getElementById('messageImage');
+                    const messagesContainer = document.getElementById('modalMessages');
+                    if (avatarImg) {
+                        avatarImg.src = "images/nhat.jpg";
+                        avatarImg.alt = "Avatar";
+                    }
+                    if (titleElement) {
+                        titleElement.textContent = slot.name || "Minh Nhật";
+                    }
+                    if (messageImage) {
+                        messageImage.src = messageObj.image || '';
+                        messageImage.alt = messageObj.text || 'Message Image';
+                        messageImage.style.display = 'block';
+                    }
+                    messagesContainer.innerHTML = '';
+                    if (messageObj.text) {
+                        const messageElement = document.createElement('p');
+                        messageElement.className = 'modal-message';
+                        messageElement.textContent = messageObj.text;
+                        messagesContainer.appendChild(messageElement);
+                    }
+                    if (overlay && modal) {
+                        overlay.classList.add('active');
+                        modal.classList.add('active');
+                    }
+                }
+
+                // Kết thúc script: không khai báo lại timeBasedImages ở đây vì đã import từ js/timeBasedImages.js
+            } // <-- Add this closing brace to end DOMContentLoaded function
+        ); // <-- This closes the DOMContentLoaded event listener
+
+        // Taskbar button click handler
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.taskbar-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const link = this.getAttribute('data-link');
+                    if (link) window.open(link, '_blank');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
