@@ -983,11 +983,9 @@
     <div class="starfield" id="starfield"></div>
     <div class="petal-bg" id="petalBg"></div>
 
-    <!-- Navigation -->
-
     <div class="container">
         <div class="solar-system" id="solarSystem">
-            <div class="sun" onclick="showSunMessage(1)" tabindex="0" aria-label="Mặt Trời" onkeydown="if(event.key==='Enter'||event.key===' '){showSunMessage(1);}">☀️</div>
+            <div class="sun" onclick="showLocketModal()" tabindex="0" aria-label="Mặt Trời" onkeydown="if(event.key==='Enter'||event.key===' '){showLocketModal();}">☀️</div>
 
             <!-- Planet 1 -->
             <div class="orbit">
@@ -1111,9 +1109,145 @@
         </button>
     </div>
 
+    <!-- Locket Modal for Sun -->
+    <div class="overlay" id="locketOverlay" style="display:none;"></div>
+    <div class="modal" id="locketModal" style="display:none;max-width:260px;width:90vw;padding:0;background:transparent;box-shadow:none;">
+        <div class="locket-widget" style="margin:auto;width:220px;height:220px;background:#000;border-radius:20px;padding:4px;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;">
+            <div class="photo-display" style="width:200px;height:200px;position:relative;border-radius:16px;overflow:hidden;">
+                <img id="locketPhoto" style="width:100%;height:100%;object-fit:cover;aspect-ratio:1/1;display:block;" class="photo-fade" alt="Locket Photo">
+                <div class="time-overlay" id="photoTime" style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.5);color:white;padding:2px 6px;border-radius:8px;font-size:10px;font-weight:500;">2m</div>
+            </div>
+        </div>
+    </div>
+
     <!-- No external script files -->
     <script src="js/timeBasedImages.js"></script>
     <script>
+        // Locket data for Sun: dùng ảnh thật từ images/memories
+        const locketTimes = [
+            'Bug', 'bạn nhỏ', 'em bé', '7/8/2022', '2/9/2022', '17/10/2024',
+            '16/11/2024', '22/12/2024', '24/12/2024', '8/3/2025', 'ebe'
+
+        ];
+        const locketPhotos = [
+            // 22 ảnh
+            ...Array.from({
+                length: 20
+            }, (_, i) => ({
+                src: `images/memories/${i + 1}.jpg`,
+                type: 'image'
+            })),
+            // 2 video
+            {
+                src: "images/memories/1.mp4",
+                type: "video"
+            }, {
+                src: "images/memories/2.mp4",
+                type: "video"
+            }
+        ];
+
+
+
+        let currentPhotoIndex = Math.floor(Math.random() * locketPhotos.length);
+
+        function showNextPhoto() {
+            const img = document.getElementById('locketPhoto');
+            const timeEl = document.getElementById('photoTime');
+            if (!img) return;
+            img.style.opacity = '0';
+            setTimeout(() => {
+                currentPhotoIndex = Math.floor(Math.random() * locketPhotos.length);
+                const timeIndex = Math.floor(Math.random() * locketTimes.length);
+                const photo = locketPhotos[currentPhotoIndex];
+                // Xóa video cũ nếu có
+                const oldVideo = document.getElementById('locketVideo');
+                if (oldVideo) oldVideo.remove();
+                if (photo.type === 'video') {
+                    img.style.display = 'none';
+                    // Tạo video element
+                    const video = document.createElement('video');
+                    video.id = 'locketVideo';
+                    video.src = photo.src;
+                    video.style.width = '100%';
+                    video.style.height = '100%';
+                    video.style.objectFit = 'cover';
+                    video.style.borderRadius = '16px';
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = true; // Bắt buộc muted để autoplay
+                    video.playsInline = true;
+                    // Khi click vào video thì bật tiếng
+                    video.addEventListener('click', function() {
+                        video.muted = false;
+                        video.volume = 1;
+                        video.play();
+                    });
+                    img.parentNode.insertBefore(video, img);
+                } else {
+                    img.style.display = 'block';
+                    img.src = photo.src;
+                    // Xóa video nếu có
+                    const oldVideo = document.getElementById('locketVideo');
+                    if (oldVideo) oldVideo.remove();
+                }
+                timeEl.textContent = locketTimes[timeIndex];
+                img.style.opacity = '1';
+            }, 400);
+        }
+
+        function showLocketModal() {
+            // Hide main modal if open
+            document.getElementById('modalContainer').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            // Show locket modal
+            document.getElementById('locketOverlay').style.display = 'block';
+            document.getElementById('locketModal').style.display = 'block';
+            showNextPhoto();
+            if (!window._locketInterval) {
+                window._locketInterval = setInterval(showNextPhoto, 4000);
+            }
+        }
+
+        function closeLocketModal() {
+            document.getElementById('locketOverlay').style.display = 'none';
+            document.getElementById('locketModal').style.display = 'none';
+            if (window._locketInterval) {
+                clearInterval(window._locketInterval);
+                window._locketInterval = null;
+            }
+        }
+        // Click overlay to close
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('locketOverlay').onclick = closeLocketModal;
+            document.getElementById('locketModal').onclick = function(e) {
+                e.stopPropagation();
+            };
+            const locketWidget = document.getElementById('locketModal').querySelector('.locket-widget');
+            locketWidget.onclick = function(e) {
+                e.stopPropagation();
+                showNextPhoto();
+            };
+            // Dừng chuyển ảnh khi giữ chuột, tiếp tục khi thả chuột hoặc rời khỏi ảnh
+            locketWidget.addEventListener('mousedown', function(e) {
+                if (window._locketInterval) {
+                    clearInterval(window._locketInterval);
+                    window._locketInterval = null;
+                }
+            });
+            locketWidget.addEventListener('mouseup', function(e) {
+                if (!window._locketInterval) {
+                    window._locketInterval = setInterval(showNextPhoto, 4000);
+                }
+            });
+            locketWidget.addEventListener('mouseleave', function(e) {
+                if (!window._locketInterval) {
+                    window._locketInterval = setInterval(showNextPhoto, 4000);
+                }
+            });
+        });
+        window.showLocketModal = showLocketModal;
+        window.closeLocketModal = closeLocketModal;
         // Wait for DOM to be ready
         document.addEventListener('DOMContentLoaded', function() {
                 console.log('🚀 DOM loaded, initializing Solar System...');
