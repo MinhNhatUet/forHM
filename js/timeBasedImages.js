@@ -351,7 +351,7 @@ const timeBasedImages = {
                 image: Array(5).fill([
                     "images/omm/1.jpg",
                     "images/omm/4.jpg",
-                    "images/obbb.gif",
+                    "images/abbb.gif",
                 ]).flat()
             },
             {

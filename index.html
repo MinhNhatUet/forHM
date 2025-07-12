@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Mặt Trời Hoa - Giao Diện</title>
+    <title>Cho ebe nè</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Cinzel:wght@400;600&display=swap');
         * {
@@ -1120,6 +1120,7 @@
         </div>
     </div>
 
+
     <!-- No external script files -->
     <script src="js/timeBasedImages.js"></script>
     <script>
@@ -1773,6 +1774,50 @@
                     if (link) window.open(link, '_blank');
                 });
             });
+        });
+    </script>
+    <script>
+        // Taskbar: đổi ảnh random và hoán đổi vị trí 7 nút liên tục
+        document.addEventListener('DOMContentLoaded', function() {
+            // Danh sách tất cả ảnh memories (1-18.jpg, có thể chỉnh lại số lượng nếu khác)
+            const allMemories = Array.from({
+                length: 18
+            }, (_, i) => `images/memories/${i+1}.jpg`);
+            const taskbar = document.getElementById('taskbar');
+            let btns = Array.from(taskbar.querySelectorAll('.taskbar-btn'));
+            let btnData = btns.map(btn => ({
+                link: btn.getAttribute('data-link'),
+                alt: btn.querySelector('img').getAttribute('alt')
+            }));
+
+            function shuffleTaskbar() {
+                // Hoán đổi vị trí nút (Fisher-Yates shuffle)
+                for (let i = btns.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [btns[i], btns[j]] = [btns[j], btns[i]];
+                    [btnData[i], btnData[j]] = [btnData[j], btnData[i]];
+                }
+                // Lấy 7 ảnh random không trùng nhau
+                let availableImages = [...allMemories];
+                let chosenImages = [];
+                for (let i = 0; i < btns.length; i++) {
+                    // Random 1 ảnh và loại khỏi mảng
+                    const idx = Math.floor(Math.random() * availableImages.length);
+                    chosenImages.push(availableImages[idx]);
+                    availableImages.splice(idx, 1);
+                }
+                // Xóa hết nút cũ
+                while (taskbar.firstChild) taskbar.removeChild(taskbar.firstChild);
+                // Thêm lại nút theo thứ tự mới, đồng thời gán ảnh không trùng nhau
+                btns.forEach((btn, idx) => {
+                    btn.setAttribute('data-link', btnData[idx].link);
+                    btn.querySelector('img').setAttribute('alt', btnData[idx].alt);
+                    btn.querySelector('img').src = chosenImages[idx];
+                    taskbar.appendChild(btn);
+                });
+            }
+            shuffleTaskbar();
+            setInterval(shuffleTaskbar, 2500);
         });
     </script>
 </body>
