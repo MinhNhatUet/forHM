@@ -2,6 +2,150 @@
 <html lang="vi">
 
 <head>
+    <style>
+        /* Starfield upgrade */
+        
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 1;
+            animation: starTwinkle 2.5s infinite alternate;
+        }
+        
+        @keyframes starTwinkle {
+            0% {
+                opacity: 0.5;
+                filter: blur(0px);
+            }
+            50% {
+                opacity: 1;
+                filter: blur(1.5px);
+            }
+            100% {
+                opacity: 0.3;
+                filter: blur(0.5px);
+            }
+        }
+        
+        .star.star-big {
+            width: 4px;
+            height: 4px;
+            background: #fffbe7;
+            animation-duration: 3.5s;
+        }
+        
+        .star.star-medium {
+            width: 2.5px;
+            height: 2.5px;
+            background: #e0e7ff;
+            animation-duration: 2.2s;
+        }
+        
+        .star.star-small {
+            width: 1.2px;
+            height: 1.2px;
+            background: #fff;
+            animation-duration: 1.5s;
+        }
+        
+        .star.star-yellow {
+            background: #ffe066;
+        }
+        
+        .star.star-blue {
+            background: #a5b4fc;
+        }
+        
+        .star.star-pink {
+            background: #ffd6e0;
+        }
+        
+        .star.star-move {
+            animation: starMove 8s linear infinite, starTwinkle 2.5s infinite alternate;
+        }
+        
+        @keyframes starMove {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(40px);
+            }
+        }
+        /* Petal upgrade */
+        
+        .floating-petal {
+            position: absolute;
+            top: -40px;
+            width: 32px;
+            height: 32px;
+            pointer-events: none;
+            opacity: 0.85;
+            z-index: 2;
+            animation: petalFall 18s linear forwards;
+        }
+        
+        @keyframes petalFall {
+            0% {
+                opacity: 0.7;
+                transform: rotate(0deg) scale(1) translateX(0);
+            }
+            60% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(360deg) scale(0.7) translateX(60px);
+            }
+        }
+        
+        .petal-1 {
+            background: url('images/petal1.png') no-repeat center/contain;
+        }
+        
+        .petal-2 {
+            background: url('images/petal2.png') no-repeat center/contain;
+        }
+        
+        .petal-3 {
+            background: url('images/petal3.png') no-repeat center/contain;
+        }
+        
+        .petal-4 {
+            background: url('images/petal4.png') no-repeat center/contain;
+        }
+        
+        .petal-5 {
+            background: url('images/petal5.png') no-repeat center/contain;
+        }
+        
+        .petal-pink {
+            filter: hue-rotate(0deg) saturate(1.2);
+        }
+        
+        .petal-yellow {
+            filter: hue-rotate(60deg) saturate(1.1);
+        }
+        
+        .petal-blue {
+            filter: hue-rotate(200deg) saturate(1.1);
+        }
+        
+        .petal-rotate {
+            animation: petalFall 18s linear forwards, petalSpin 6s linear infinite;
+        }
+        
+        @keyframes petalSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cho ebe nè</title>
@@ -961,9 +1105,11 @@
         .taskbar-btn img {
             width: 100%;
             height: 100%;
+            aspect-ratio: 1/1;
             object-fit: cover;
             border-radius: 50%;
             pointer-events: none;
+            display: block;
         }
         
         @media (max-width: 600px) {
@@ -980,6 +1126,41 @@
 </head>
 
 <body>
+    <!-- Hamburger Music Menu -->
+    <div id="musicMenuBtn" style="position:fixed;top:18px;left:18px;z-index:3000;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(30,30,40,0.85);border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.18);">
+        <div style="width:28px;height:22px;display:flex;flex-direction:column;justify-content:space-between;">
+            <span style="display:block;height:4px;width:100%;background:#fff;border-radius:2px;"></span>
+            <span style="display:block;height:4px;width:100%;background:#fff;border-radius:2px;"></span>
+            <span style="display:block;height:4px;width:100%;background:#fff;border-radius:2px;"></span>
+        </div>
+    </div>
+    <div id="musicMenuOverlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(20,20,30,0.92);z-index:2999;"></div>
+    <div id="musicMenuPanel" style="display:none;position:fixed;top:0;left:0;width:100vw;max-width:360px;height:100vh;background:rgba(255,255,255,0.82);backdrop-filter:blur(6px);z-index:3001;box-shadow:4px 0 32px 0 rgba(0,0,0,0.22);overflow-y:auto;padding:28px 8px 18px 8px;">
+        <button id="closeMusicMenu" style="position:absolute;top:16px;right:16px;background:rgba(30,30,40,0.12);border:none;border-radius:50%;width:36px;height:36px;font-size:22px;cursor:pointer;">×</button>
+        <h2 style="margin:0 0 18px 0;font-size:1.3rem;text-align:center;color:#222;font-family:sans-serif;">🎵 Nhạc cho bạn nhỏ</h2>
+        <div id="musicListPanel" style="display:flex;flex-direction:column;gap:14px;align-items:flex-start;padding-bottom:8px;">
+            <!-- Danh sách nhạc sẽ được render bằng JS để gắn sự kiện play -->
+        </div>
+    </div>
+    <!-- Dynamic Island Music Player -->
+    <div id="bigMusicPlayerOverlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:3500;pointer-events:none;">
+        <div id="islandBlurBg" style="position:absolute;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,40,0.12);backdrop-filter:blur(2.5px);transition:opacity 0.3s;pointer-events:auto;"></div>
+        <div id="islandPlayerWrap" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);opacity:0;transition:all 0.35s cubic-bezier(.4,1.6,.4,1);display:flex;align-items:center;justify-content:center;min-width:320px;min-height:120px;pointer-events:auto;">
+            <div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(30,30,40,0.92);backdrop-filter:blur(8px);padding:18px 18px 22px 18px;border-radius:32px;box-shadow:0 8px 32px 0 rgba(0,0,0,0.22);min-width:320px;max-width:420px;width:100vw;">
+                <button id="closeBigPlayer" style="position:absolute;top:8px;right:8px;background:rgba(30,30,40,0.18);border:none;border-radius:50%;width:36px;height:36px;font-size:22px;cursor:pointer;color:#fff;z-index:2;">×</button>
+                <div style="margin:auto;width:100%;max-width:380px;">
+                    <iframe id="bigMusicIframe" style="border-radius:18px;width:100%;min-width:220px;max-width:380px;min-height:80px;height:80px;max-height:120px;border:none;background:rgba(255,255,255,0.97);box-shadow:0 4px 18px 0 rgba(0,0,0,0.18);overflow:hidden;position:relative;"
+                        src="" frameBorder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:12px;align-items:center;justify-content:center;">
+                    <button id="prevMusicBtn" style="font-size:1.2rem;padding:6px 14px;border-radius:8px;border:none;background:#eee;cursor:pointer;">⏮️</button>
+                    <button id="nextMusicBtn" style="font-size:1.2rem;padding:6px 14px;border-radius:8px;border:none;background:#eee;cursor:pointer;">⏭️</button>
+                    <button id="modeMusicBtn" style="font-size:1rem;padding:6px 10px;border-radius:8px;border:none;background:#e0e0e0;cursor:pointer;">🔁 Tuần tự</button>
+                </div>
+                <div id="bigPlayerHint" style="margin-top:10px;background:rgba(0,0,0,0.13);color:#fff;padding:4px 12px;border-radius:10px;font-size:0.95rem;z-index:3;white-space:nowrap;">Dùng ⏮️ ⏭️ hoặc phím ← → để chuyển bài.</div>
+            </div>
+        </div>
+    </div>
     <div class="starfield" id="starfield"></div>
     <div class="petal-bg" id="petalBg"></div>
 
@@ -1123,6 +1304,204 @@
 
     <!-- No external script files -->
     <script src="js/timeBasedImages.js"></script>
+    <script>
+        // Music Player logic
+        document.addEventListener('DOMContentLoaded', function() {
+            // Danh sách nhạc (Spotify embed src)
+            const musicList = [{
+                src: "https://open.spotify.com/embed/album/7kT4Uja9jEoToBrOwP16LD?utm_source=generator",
+                title: "Album: 7kT4Uja9jEoToBrOwP16LD"
+            }, {
+                src: "https://open.spotify.com/embed/track/4XfGJcOuna8p7g8Nku9bQq?utm_source=generator",
+                title: "Track: 4XfGJcOuna8p7g8Nku9bQq"
+            }, {
+                src: "https://open.spotify.com/embed/track/5KYv3kORBKUmVEoqbRRWxt?utm_source=generator",
+                title: "Track: 5KYv3kORBKUmVEoqbRRWxt"
+            }, {
+                src: "https://open.spotify.com/embed/track/7zJ6yuuOnjjRqbKv1zfCAl?utm_source=generator",
+                title: "Track: 7zJ6yuuOnjjRqbKv1zfCAl"
+            }, {
+                src: "https://open.spotify.com/embed/track/5wYQC7AuxV8ROALWcbVNxc?utm_source=generator",
+                title: "Track: 5wYQC7AuxV8ROALWcbVNxc"
+            }, {
+                src: "https://open.spotify.com/embed/track/3b34161QoxLwsqhWSPy9i5?utm_source=generator",
+                title: "Track: 3b34161QoxLwsqhWSPy9i5"
+            }, {
+                src: "https://open.spotify.com/embed/track/7fCeYpR02Q8JVuD88hJZVT?utm_source=generator",
+                title: "Track: 7fCeYpR02Q8JVuD88hJZVT"
+            }, {
+                src: "https://open.spotify.com/embed/track/0yCWGVeHcbaP3yiicXvgK3?utm_source=generator",
+                title: "Track: 0yCWGVeHcbaP3yiicXvgK3"
+            }, {
+                src: "https://open.spotify.com/embed/track/1DVYafsLmcQySKkJnY4RCs?utm_source=generator",
+                title: "Track: 1DVYafsLmcQySKkJnY4RCs"
+            }, {
+                src: "https://open.spotify.com/embed/track/3H6nzsPNMttEvUl3ai3xN8?utm_source=generator",
+                title: "Track: 3H6nzsPNMttEvUl3ai3xN8"
+            }, {
+                src: "https://open.spotify.com/embed/track/5LQpQ6SDeaz6SIkR0lvsoC?utm_source=generator",
+                title: "Track: 5LQpQ6SDeaz6SIkR0lvsoC"
+            }];
+            let currentMusicIndex = 0;
+            let playMode = 'sequential'; // or 'random'
+            // Render danh sách nhạc nhỏ
+            const musicListPanel = document.getElementById('musicListPanel');
+            musicListPanel.innerHTML = '';
+            musicList.forEach((item, idx) => {
+                const wrap = document.createElement('div');
+                wrap.style.width = '100%';
+                wrap.style.cursor = 'pointer';
+                wrap.style.position = 'relative';
+                wrap.style.transition = 'box-shadow 0.2s';
+                wrap.setAttribute('data-idx', idx);
+                wrap.title = 'Bấm để phát lớn';
+                wrap.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showBigPlayer(idx);
+                });
+                const iframe = document.createElement('iframe');
+                iframe.style.borderRadius = '12px';
+                iframe.style.minWidth = '220px';
+                iframe.style.width = '100%';
+                iframe.style.maxWidth = '340px';
+                iframe.style.minHeight = '80px';
+                iframe.style.height = '80px';
+                iframe.style.maxHeight = '80px';
+                iframe.style.border = 'none';
+                iframe.style.background = 'rgba(255,255,255,0.85)';
+                iframe.style.boxShadow = '0 4px 18px 0 rgba(0,0,0,0.18)';
+                iframe.style.overflow = 'hidden';
+                iframe.style.position = 'relative';
+                iframe.src = item.src;
+                iframe.setAttribute('frameBorder', '0');
+                iframe.setAttribute('allowfullscreen', '');
+                iframe.setAttribute('allow', 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
+                iframe.setAttribute('loading', 'lazy');
+                wrap.appendChild(iframe);
+                musicListPanel.appendChild(wrap);
+            });
+            // Big player logic
+            const bigOverlay = document.getElementById('bigMusicPlayerOverlay');
+            const bigIframe = document.getElementById('bigMusicIframe');
+            const closeBigBtn = document.getElementById('closeBigPlayer');
+            const nextBtn = document.getElementById('nextMusicBtn');
+            const prevBtn = document.getElementById('prevMusicBtn');
+            const modeBtn = document.getElementById('modeMusicBtn');
+
+            function showBigPlayer(idx) {
+                currentMusicIndex = idx;
+                bigIframe.src = musicList[idx].src;
+                bigOverlay.style.display = 'block';
+                // Hiệu ứng dynamic island
+                setTimeout(function() {
+                    document.getElementById('islandPlayerWrap').style.transform = 'translate(-50%,-50%) scale(1)';
+                    document.getElementById('islandPlayerWrap').style.opacity = '1';
+                }, 10);
+                updateModeBtn();
+            }
+
+            function closeBigPlayer() {
+                document.getElementById('islandPlayerWrap').style.transform = 'translate(-50%,-50%) scale(0.92)';
+                document.getElementById('islandPlayerWrap').style.opacity = '0';
+                setTimeout(function() {
+                    bigOverlay.style.display = 'none';
+                    bigIframe.src = '';
+                }, 300);
+            }
+
+            function playNext() {
+                if (playMode === 'random') {
+                    let nextIdx;
+                    do {
+                        nextIdx = Math.floor(Math.random() * musicList.length);
+                    } while (nextIdx === currentMusicIndex && musicList.length > 1);
+                    currentMusicIndex = nextIdx;
+                } else {
+                    currentMusicIndex = (currentMusicIndex + 1) % musicList.length;
+                }
+                showBigPlayer(currentMusicIndex);
+            }
+
+            function playPrev() {
+                if (playMode === 'random') {
+                    let prevIdx;
+                    do {
+                        prevIdx = Math.floor(Math.random() * musicList.length);
+                    } while (prevIdx === currentMusicIndex && musicList.length > 1);
+                    currentMusicIndex = prevIdx;
+                } else {
+                    currentMusicIndex = (currentMusicIndex - 1 + musicList.length) % musicList.length;
+                }
+                showBigPlayer(currentMusicIndex);
+            }
+
+            function toggleMode() {
+                playMode = playMode === 'sequential' ? 'random' : 'sequential';
+                updateModeBtn();
+            }
+
+            function updateModeBtn() {
+                modeBtn.textContent = playMode === 'sequential' ? '🔁 Tuần tự' : '🔀 Ngẫu nhiên';
+            }
+            closeBigBtn.onclick = closeBigPlayer;
+            nextBtn.onclick = playNext;
+            prevBtn.onclick = playPrev;
+            modeBtn.onclick = toggleMode;
+            // Đóng khi bấm ngoài overlay
+            bigOverlay.onclick = function(e) {
+                if (e.target === bigOverlay) closeBigPlayer();
+            };
+            // Keyboard: Esc để đóng, Space/Right để next, Left để prev
+            document.addEventListener('keydown', function(e) {
+                if (bigOverlay.style.display === 'flex') {
+                    if (e.key === 'Escape') closeBigPlayer();
+                    if (e.key === 'ArrowRight') playNext();
+                    if (e.key === 'ArrowLeft') playPrev();
+                }
+            });
+            // Tự động phát tiếp khi user nhấn next trên Spotify (không có API end, nên hướng dẫn user dùng nút next của overlay)
+            // Có thể thêm hướng dẫn nhỏ:
+            const hint = document.createElement('div');
+            hint.style.position = 'absolute';
+            hint.style.bottom = '32px';
+            hint.style.left = '50%';
+            hint.style.transform = 'translateX(-50%)';
+            hint.style.background = 'rgba(0,0,0,0.18)';
+            hint.style.color = '#fff';
+            hint.style.padding = '6px 18px';
+            hint.style.borderRadius = '12px';
+            hint.style.fontSize = '1rem';
+            hint.style.zIndex = '3';
+            hint.textContent = 'Dùng ⏮️ ⏭️ hoặc phím ← → để chuyển bài. Không thể tự động phát hết bài do giới hạn Spotify.';
+            bigOverlay.appendChild(hint);
+        });
+    </script>
+    <script>
+        // Music menu hamburger logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('musicMenuBtn');
+            const panel = document.getElementById('musicMenuPanel');
+            const overlay = document.getElementById('musicMenuOverlay');
+            const closeBtn = document.getElementById('closeMusicMenu');
+
+            function openMenu() {
+                panel.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+
+            function closeMenu() {
+                panel.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+            btn.onclick = openMenu;
+            closeBtn.onclick = closeMenu;
+            overlay.onclick = closeMenu;
+            // Đóng bằng phím Esc
+            document.addEventListener('keydown', function(e) {
+                if (panel.style.display === 'block' && (e.key === 'Escape' || e.key === 'Esc')) closeMenu();
+            });
+        });
+    </script>
     <script>
         // Locket data for Sun: dùng ảnh thật từ images/memories
         const locketTimes = [
@@ -1561,48 +1940,60 @@
                 });
 
                 // Create starfield
+                // Create starfield (nâng cấp)
                 function createStarfield() {
                     const starfield = document.getElementById('starfield');
-                    for (let i = 0; i < 200; i++) {
-                        const star = document.createElement('div');
-                        star.className = 'star';
-                        star.style.left = Math.random() * 100 + '%';
-                        star.style.top = Math.random() * 100 + '%';
-                        star.style.animationDelay = Math.random() * 3 + 's';
-                        star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                        starfield.appendChild(star);
+                    const starTypes = [{
+                        cls: 'star-big',
+                        count: 40
+                    }, {
+                        cls: 'star-medium',
+                        count: 80
+                    }, {
+                        cls: 'star-small',
+                        count: 120
+                    }];
+                    const colorClasses = ['star-yellow', 'star-blue', 'star-pink', ''];
+                    for (const type of starTypes) {
+                        for (let i = 0; i < type.count; i++) {
+                            const star = document.createElement('div');
+                            let extra = '';
+                            if (Math.random() < 0.25) extra = 'star-move';
+                            const color = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+                            star.className = `star ${type.cls} ${color} ${extra}`;
+                            star.style.left = Math.random() * 100 + '%';
+                            star.style.top = Math.random() * 100 + '%';
+                            star.style.animationDelay = (Math.random() * 3) + 's';
+                            starfield.appendChild(star);
+                        }
                     }
                 }
 
-                // Create floating petals
+                // Create floating petals (nâng cấp)
                 function createPetal() {
                     const petal = document.createElement('div');
-                    const petalTypes = ['petal-1', 'petal-2', 'petal-3', 'petal-4'];
+                    const petalTypes = ['petal-1', 'petal-2', 'petal-3', 'petal-4', 'petal-5'];
+                    const colorTypes = ['petal-pink', 'petal-yellow', 'petal-blue', ''];
                     const randomType = petalTypes[Math.floor(Math.random() * petalTypes.length)];
-
-                    petal.className = `floating-petal ${randomType}`;
+                    const color = colorTypes[Math.floor(Math.random() * colorTypes.length)];
+                    const rotate = Math.random() < 0.5 ? 'petal-rotate' : '';
+                    petal.className = `floating-petal ${randomType} ${color} ${rotate}`;
                     petal.style.left = Math.random() * 100 + '%';
-                    petal.style.animationDelay = Math.random() * 20 + 's';
-                    petal.style.animationDuration = (Math.random() * 15 + 15) + 's';
-
+                    petal.style.animationDelay = Math.random() * 10 + 's';
+                    petal.style.animationDuration = (Math.random() * 10 + 12) + 's';
                     document.getElementById('petalBg').appendChild(petal);
-
                     setTimeout(() => {
-                        if (petal.parentNode) {
-                            petal.remove();
-                        }
-                    }, 35000);
+                        if (petal.parentNode) petal.remove();
+                    }, 30000);
                 }
 
-                // Initialize effects
+                // Initialize effects nâng cấp
                 console.log('Initializing starfield and petals...');
                 createStarfield();
-
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(createPetal, Math.random() * 10000);
+                for (let i = 0; i < 80; i++) {
+                    setTimeout(createPetal, Math.random() * 12000);
                 }
-
-                setInterval(createPetal, 800);
+                setInterval(createPetal, 500);
 
                 // Initialize planet icons and start rotation
                 console.log('Initializing planet icons...');
